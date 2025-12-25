@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Toxic Comment Detector</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body { animation: fadeIn 1s ease-in; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.08);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-br from-gray-900 via-purple-900 to-black text-white flex flex-col items-center justify-center min-h-screen px-6">
+
+  <!-- Header -->
+  <div class="text-center mb-8">
+    <h1 class="text-5xl font-extrabold mb-2">🛡️ Toxic Comment Detector</h1>
+    <p class="text-lg opacity-80 max-w-xl mx-auto">
+      Detect toxic comments using AI and suggest moderation actions.
+    </p>
+  </div>
+
+  <!-- Card -->
+  <div class="glass-card w-full max-w-xl rounded-2xl p-6 shadow-2xl">
+
+    <textarea id="inputText" rows="3"
+      class="w-full p-3 rounded-xl text-black focus:outline-none"
+      placeholder="Type something offensive or polite..."></textarea>
+
+    <button onclick="checkToxicity()"
+      class="mt-4 w-full px-6 py-2 bg-purple-600 hover:bg-purple-700 rounded-xl font-semibold">
+      🚀 Check Toxicity
+    </button>
+
+    <!-- Results -->
+    <div id="results" class="mt-6 text-lg space-y-2 hidden">
+      <p><b>Label:</b> <span id="label"></span></p>
+      <p><b>Toxic Probability:</b> <span id="toxic_prob"></span></p>
+      <p><b>Severity:</b> <span id="severity"></span></p>
+      <p><b>AI Suggested Action:</b> <span id="action"></span></p>
+    </div>
+
+    <div id="status" class="mt-4 text-center text-lg"></div>
+  </div>
+
+  <!-- Footer -->
+  <footer id="fun-footer" class="mt-10 italic text-gray-400"></footer>
+
+  <!-- JavaScript -->
+  <script>
+    async function checkToxicity() {
+      const text = document.getElementById("inputText").value.trim();
+      const status = document.getElementById("status");
+      const results = document.getElementById("results");
+
+      if (!text) {
+        status.innerText = "❗ Please enter some text.";
+        status.className = "mt-4 text-yellow-300";
+        return;
+      }
+
+      status.innerText = "⏳ Checking toxicity...";
+      status.className = "mt-4 text-blue-300 animate-pulse";
+      results.classList.add("hidden");
+
+      try {
+        const response = await fetch("/predict", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text })
+        });
+
+        const data = await response.json();
+        console.log("API Response:", data);
+
+        const labelEl = document.getElementById("label");
+
+        labelEl.innerText = data.label;
+
+        if (data.label === "toxic") {
+          labelEl.className = "text-red-400 font-bold";
+        } else {
+          labelEl.className = "text-green-400 font-bold";
+        }
+
+        document.getElementById("toxic_prob").innerText =(data.toxic_probability * 100).toFixed(2) + "%";
+        document.getElementById("severity").innerText = data.severity;
+        document.getElementById("action").innerText = data.moderation_action;
+
+        results.classList.remove("hidden");
+        status.innerText = "";
+        status.className = "";
+
+      } catch (error) {
+        status.innerText = "❌ Error connecting to server.";
+        status.className = "mt-4 text-red-400";
+      }
+    }
+
+    // Random footer captions
+    const captions = [
+      "🤖 AI is fun!",
+      "🕵️ AI is a detective",
+      "🧠 AI thinks faster than me",
+      "⚡ Powered by AI magic",
+      "😄 Be kind, AI is learning",
+      "🎯 AI sees what we miss"
+    ];
+
+    document.getElementById("fun-footer").innerText =
+      captions[Math.floor(Math.random() * captions.length)];
+  </script>
+
+</body>
+</html>
