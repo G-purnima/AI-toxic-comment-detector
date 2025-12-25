@@ -48,7 +48,7 @@ This makes the project suitable for social media content moderation scenarios.
 | **ML Model**      | fine-tunned BERT (`transformers`)          |
 | **Model Hosting** | Hugging Face                               |
 | **Environment**   | Pythong Virtual Environment(venv)          |
-|-------------------|--------------------------------------------|
+
 
 
 ## 📖 How It Works
@@ -78,7 +78,7 @@ This makes the project suitable for social media content moderation scenarios.
 |  0.30 – 0.50	   |  Mild	   |   Hide comment    |
 |  0.50 – 0.75	   |  Moderate |   Warn user       |
 |   > 0.75         |  Severe	 |   Block & report  |
-|------------------|-----------|-------------------|
+
 
 
 ## 📚 Acknowledgments
