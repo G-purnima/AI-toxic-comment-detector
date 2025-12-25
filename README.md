@@ -40,7 +40,7 @@ This makes the project suitable for social media content moderation scenarios.
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 ## 🛠️ Tech Stack
-|-------------------|--------------------------------------------|
+
 | Layer             | Technology                                 |
 |-------------------|--------------------------------------------|
 | **Frontend**      | HTML, Tailwind CSS, JavaScript             |
@@ -71,7 +71,7 @@ This makes the project suitable for social media content moderation scenarios.
 
 
 ## 🧠 Severity & Moderation Logic
-|------------------|-----------|-------------------|
+
 |Toxic Probability |	Severity |	Suggested Action |
 |------------------|-----------|-------------------|
 |   < 0.30	       |  Clean	   |   Allow comment   |
